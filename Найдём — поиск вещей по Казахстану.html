@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Найдём — поиск вещей по Казахстану</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&family=Unbounded:wght@700;800&display=swap">
+<style>
+:root{--bg:#fff8fc;--surface:#fff;--ink:#3a1030;--mute:#7d5a72;--line:#f6c9e0;--pink:#ff4fa3;--pinkd:#d6277f;--pinkbg:#ffe3f1;--yel:#ffd84a;--yelbg:#fff3b8;--teal:#1bada6;--on-pink:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#22081c;--surface:#331229;--ink:#fff0f8;--mute:#e3b3d1;--line:#5c2a4d;--pink:#ff6fb5;--pinkd:#ff9acb;--pinkbg:#4a1a3c;--yel:#ffd84a;--yelbg:#4d4010;--on-pink:#2a0820;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#22081c;--surface:#331229;--ink:#fff0f8;--mute:#e3b3d1;--line:#5c2a4d;--pink:#ff6fb5;--pinkd:#ff9acb;--pinkbg:#4a1a3c;--yelbg:#4d4010;--on-pink:#2a0820;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Onest,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden}
+#sky{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.bm{position:absolute;bottom:-70px;border-radius:50%;background:var(--teal);color:#fff;font:800 1em Unbounded,Onest,sans-serif;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 3px #fff,0 6px 16px rgba(27,173,166,.4);animation:fly linear infinite}
+@keyframes fly{0%{transform:translate(0,0) rotate(-12deg) scale(.8);opacity:0}10%{opacity:.95}90%{opacity:.95}100%{transform:translate(var(--dx),-115vh) rotate(14deg) scale(1.1);opacity:0}}
+@media (prefers-reduced-motion:reduce){.bm{animation:none;bottom:auto;opacity:.5}}
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 20px}
+.repo{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:16px 0;color:var(--mute);font-size:14px}
+.repo b{color:var(--pinkd)}
+.tag{background:var(--yelbg);border-radius:999px;padding:1px 10px;font-size:13px;color:var(--ink)}
+h1{font:800 clamp(30px,6.4vw,54px)/1.08 Unbounded,Onest,sans-serif;margin:28px 0 14px;max-width:16ch}
+.lead{font-size:18px;color:var(--mute);max-width:52ch;margin:0 0 24px}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+a.btn{display:inline-block;padding:13px 24px;border-radius:999px;font-weight:700;text-decoration:none;color:var(--ink);background:var(--yel);border:2px solid var(--yel)}
+a.btn.alt{background:transparent;border-color:var(--pink);color:var(--pinkd)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.note{font-size:14px;color:var(--mute);margin:10px 0 0}
+.box{margin-top:36px;background:var(--surface);border:2px solid var(--line);border-radius:24px;padding:22px}
+form{display:flex;gap:8px;flex-wrap:wrap}
+input[type=search]{flex:1;min-width:200px;font:inherit;font-size:18px;padding:14px 18px;border-radius:999px;border:2px solid var(--pink);background:var(--bg);color:var(--ink)}
+button{font:inherit;cursor:pointer;border-radius:999px;border:2px solid var(--line);background:var(--surface);color:var(--ink);padding:10px 18px}
+button.go{background:var(--pink);border-color:var(--pink);color:var(--on-pink);font-weight:700;padding:12px 28px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px}
+.chips button[aria-pressed=true]{background:var(--yel);border-color:var(--yel);font-weight:700}
+.sum{margin:16px 0 8px;font-weight:700}
+.sum span{color:var(--pinkd)}
+.res{display:grid;gap:10px}
+.card{border:2px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;grid-template-columns:1fr auto;gap:6px 14px;align-items:center}
+.card.top{border-color:var(--teal);background:var(--pinkbg)}
+.card h3{margin:0;font-size:17px}
+.card p{margin:2px 0 0;color:var(--mute);font-size:14px}
+.price{font:800 20px Unbounded,Onest,sans-serif;text-align:right;white-space:nowrap}
+.card a{grid-column:1/-1;justify-self:start;font-weight:700;color:var(--pinkd)}
+.badge{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:1px 9px;margin-right:6px;background:var(--yelbg)}
+.badge.b{background:var(--teal);color:#fff}
+.msg{padding:14px 16px;border-radius:14px;background:var(--yelbg)}
+.more{margin-top:14px;width:100%;border-color:var(--pink);color:var(--pinkd);font-weight:700}
+h2{font:800 22px Unbounded,Onest,sans-serif;margin:44px 0 12px}
+.src{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0;list-style:none}
+.src li{background:var(--yelbg);border-radius:999px;padding:5px 14px;font-size:14px}
+pre{background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:14px;overflow-x:auto;font-size:14px}
+footer{margin-top:48px;padding:24px 0;color:var(--mute);font-size:14px}
+</style>
+</head>
+<body>
+<div id="sky" aria-hidden="true"></div>
+<main class="wrap">
+<div class="repo"><span>github.com/<b>твой-ник</b>/<b>найдём-kz</b></span><span class="tag">Public</span><span class="tag">v0.2</span></div>
+<h1>Найдём любую вещь по Казахстану</h1>
+<p class="lead">Введите что угодно. Покажем миллионы вариантов: где продают, какая цена лучше, новая вещь или б/у и в каком она состоянии.</p>
+<div class="btns">
+<a class="btn" href="https://github.com/твой-ник/найдём-kz/releases/latest">Скачать для Windows</a>
+<a class="btn alt" href="https://github.com/твой-ник/найдём-kz">Открыть на GitHub</a>
+</div>
+<p class="note">Замените «твой-ник» на свой аккаунт GitHub после загрузки релиза.</p>
+
+<div class="box">
+<form id="f" role="search">
+<input type="search" id="q" placeholder="Например: кроссовки, ноутбук, диван, запчасти" aria-label="Что ищем">
+<button class="go" type="submit">Найти</button>
+</form>
+<div class="chips" role="group" aria-label="Состояние">
+<button type="button" data-c="all" aria-pressed="true">Любое</button>
+<button type="button" data-c="new" aria-pressed="false">Новое</button>
+<button type="button" data-c="used" aria-pressed="false">Б/у</button>
+</div>
+<div id="out" aria-live="polite"></div>
+<p class="note">Демо-режим: варианты и цены моделируются по вашему запросу, чтобы показать, как выглядят результаты. Ссылки ведут на реальный поиск у продавца.</p>
+</div>
+
+<h2>Откуда данные</h2>
+<ul class="src"><li>Kaspi Магазин</li><li>OLX.kz</li><li>Technodom</li><li>Sulpak</li><li>Mechta.kz</li><li>Wildberries</li><li>Satu.kz</li><li>Alfa.kz</li></ul>
+<p class="note">Не ищем алкоголь, наркотики, товары 18+ и другие запрещённые вещи.</p>
+
+<h2>Как установить</h2>
+<pre>1. Скачайте найдём-kz-setup.exe из раздела Releases
+2. Запустите установщик
+3. Введите название вещи и нажмите «Найти»</pre>
+</main>
+<footer><div class="wrap">Проект с открытым кодом. Перед покупкой проверьте цену и наличие на сайте продавца.</div></footer>
+<script>
+var COLORS=["чёрный","белый","розовый","золотой","серебристый","синий","красный","зелёный","серый","фиолетовый","бежевый","жёлтый"];
+var MODS=["Standard","Lite","Plus","Pro","Mini","Max","Ultra","SE"];
+var CONDS=[["new","Новое, запечатано",1],["new","Новое, без упаковки",.93],["used","Как новое, б/у",.78],["used","Хорошее, мелкие следы",.62],["used","Б/у, есть дефекты",.45]];
+var CITIES=["Астана","Алматы","Шымкент","Караганда","Актобе","Тараз","Павлодар","Усть-Каменогорск","Семей","Атырау","Костанай","Кызылорда","Уральск","Петропавловск","Актау","Темиртау","Туркестан"];
+var SHOPS=[["Kaspi Магазин","https://kaspi.kz/shop/search/?text="],["OLX.kz","https://www.olx.kz/list/q-"],["Technodom","technodom.kz"],["Sulpak","sulpak.kz"],["Mechta.kz","mechta.kz"],["Wildberries","wildberries.kz"],["Satu.kz","satu.kz"],["Alfa.kz","alfa.kz"]];
+var YEARS=[2025,2024,2023,2022,2021,2020];
+var KITS=[["полная комплектация",1],["без коробки",.97],["без аксессуаров",.9]];
+var BAN=["наркот","алкогол","водк","пиво","вино","коньяк","виски","секс","порно","оружи","сигарет","вейп","трав","мефедрон"];
+var TOTAL=COLORS.length*MODS.length*CONDS.length*CITIES.length*SHOPS.length*YEARS.length*KITS.length;
+var q=document.getElementById("q"),out=document.getElementById("out"),cond="all",list=[],shown=0,query="";
+function seed(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function fmt(n){return n.toLocaleString("ru-RU")+" ₸"}
+function link(s,t){var e=encodeURIComponent(t);return s[1].indexOf("http")===0?s[1]+e:"https://www.google.com/search?q="+encodeURIComponent("site:"+s[1]+" "+t)}
+function build(t){
+var r=rng(seed(t)),base=Math.round((5000+r()*295000)/100)*100,pool=[],i,n=0;
+while(pool.length<400&&n++<4000){
+var c=CONDS[Math.floor(r()*CONDS.length)];if(cond!=="all"&&c[0]!==cond)continue;
+var col=COLORS[Math.floor(r()*COLORS.length)],mi=Math.floor(r()*MODS.length),city=CITIES[Math.floor(r()*CITIES.length)],sh=SHOPS[Math.floor(r()*SHOPS.length)],y=YEARS[Math.floor(r()*YEARS.length)],k=KITS[Math.floor(r()*KITS.length)];
+var p=Math.round(base*c[2]*(1+mi*.12)*(1-(2025-y)*.04)*k[1]*(.92+r()*.16)/100)*100;
+var name=t.charAt(0).toUpperCase()+t.slice(1);
+pool.push({p:p,sh:sh,city:city,c:c,name:name+" "+MODS[mi],d:col+", "+y+" г., "+k[0],u:link(sh,name+" "+MODS[mi]+" "+col)})}
+pool.sort(function(a,b){return a.p-b.p});return pool}
+function more(){
+var box=document.getElementById("list"),btn=document.getElementById("more");
+list.slice(shown,shown+12).forEach(function(x,j){var i=shown+j,el=document.createElement("div");el.className="card"+(i===0?" top":"");
+el.innerHTML='<div><h3></h3><p></p></div><div class="price"></div><a target="_blank" rel="noopener">Открыть у продавца</a>';
+el.querySelector("h3").textContent=x.name;
+el.querySelector("p").innerHTML='<span class="badge'+(i===0?' b':'')+'"></span><span></span>';
+el.querySelector(".badge").textContent=i===0?"!! Лучшая цена":x.c[1];
+el.querySelector("p span:last-child").textContent=(i===0?x.c[1]+" · ":"")+x.sh[0]+", "+x.city+" · "+x.d;
+el.querySelector(".price").textContent=fmt(x.p);el.querySelector("a").href=x.u;box.appendChild(el)});
+shown+=12;if(btn&&shown>=list.length)btn.hidden=true}
+function run(){
+var t=q.value.trim().toLowerCase();out.innerHTML="";
+if(!t){out.innerHTML='<p class="msg">Введите название вещи, которую нужно найти.</p>';return}
+if(BAN.some(function(b){return t.indexOf(b)>-1})){out.innerHTML='<p class="msg">Этот запрос заблокирован: не ищем алкоголь, наркотики, товары 18+ и другие запрещённые вещи.</p>';return}
+query=t;list=build(t);shown=0;
+var tot=cond==="all"?TOTAL:Math.round(TOTAL*(cond==="new"?2:3)/5);
+out.innerHTML='<p class="sum">Найдено <span>'+tot.toLocaleString("ru-RU")+'</span> вариантов. Показаны самые выгодные.</p><div class="res" id="list"></div><button class="more" id="more" type="button">Показать ещё</button>';
+document.getElementById("more").addEventListener("click",more);more()}
+document.getElementById("f").addEventListener("submit",function(e){e.preventDefault();run()});
+document.querySelectorAll(".chips button").forEach(function(b){b.addEventListener("click",function(){cond=b.dataset.c;document.querySelectorAll(".chips button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});if(q.value.trim())run()})});
+var sky=document.getElementById("sky");
+for(var i=0;i<16;i++){var d=document.createElement("div"),s=26+Math.random()*34;d.className="bm";d.textContent="!!";
+d.style.cssText="left:"+(Math.random()*96)+"%;width:"+s+"px;height:"+s+"px;font-size:"+(s*.4)+"px;animation-duration:"+(11+Math.random()*12)+"s;animation-delay:-"+(Math.random()*20)+"s;--dx:"+((Math.random()-.5)*160)+"px";
+if(matchMedia("(prefers-reduced-motion:reduce)").matches)d.style.top=(Math.random()*90)+"%";sky.appendChild(d)}
+</script>
+</body>
+</html>
